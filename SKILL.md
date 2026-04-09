@@ -370,6 +370,7 @@ Use to:
 
 ## Execution Notes
 
+- When downstream systems keep a capability-neutral case envelope, see `references/prior-pass-envelope.md` for optional placement of MoAE summaries in open slots (e.g. abductive convergence) without hard-wiring other products by name.
 - Prefer bundled scripts over ad hoc code when they fit.
 - Keep code factored: data preparation, inference, simulation, and presentation should be separate concerns.
 - If no quantitative data exists, still produce ordinal confidence and explain what would most increase precision.
