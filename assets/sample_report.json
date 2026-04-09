@@ -1,0 +1,48 @@
+{
+  "domain": "HVAC fault detection with telemetry",
+  "final_baseline_explanation": "Confirmed root cause is chilled-water flow restriction with high confidence.",
+  "confidence": 0.91,
+  "confidence_interval": {"lower": 0.84, "upper": 0.95},
+  "final_posterior": {"Flow restriction": 0.72, "Control instability": 0.18, "Sensor bias": 0.10},
+  "experts": [
+    {"name": "Mechanistic expert", "scope": "Thermal and hydraulic mechanisms", "credibility": 0.30, "blind_spots": ["operator workflow"]},
+    {"name": "Controls expert", "scope": "BMS and sequencing", "credibility": 0.25, "blind_spots": ["hidden fouling"]},
+    {"name": "Reliability expert", "scope": "Failure prevalence and degradation", "credibility": 0.20, "blind_spots": ["instantaneous transients"]}
+  ],
+  "evidence_taxonomy_summary": {
+    "positive_support_by_class": {"fact": 1.2, "measurement": 1.5, "correlation": 0.4, "causal_claim": 0.6}
+  },
+  "eliminated_alternatives": [
+    {"hypothesis": "Control instability", "refutation": "Oscillation signature is absent and command behavior is stable."},
+    {"hypothesis": "Sensor bias", "refutation": "Cross-sensor agreement makes pure instrumentation bias unlikely."}
+  ],
+  "recommended_actions": [
+    "Inspect strainers and verify differential pressure across the affected branch.",
+    "Trend pump head, valve position, and delta-T for 24 hours after remediation."
+  ],
+  "narrowing_trace": [
+    {"round": 1, "summary": "Started broad with four viable hypotheses.", "remaining_hypotheses": 4},
+    {"round": 2, "summary": "Measurement evidence reduced sensor-bias plausibility.", "remaining_hypotheses": 3},
+    {"round": 3, "summary": "Mechanistic consistency favored flow restriction.", "remaining_hypotheses": 1}
+  ],
+  "semantic_clusters": {
+    "clusters": [
+      {"cluster_id": "cluster-1", "labels": ["Mechanistic expert", "Reliability expert"], "summary_hint": "flow / restriction / fouling"},
+      {"cluster_id": "cluster-2", "labels": ["Controls expert"], "summary_hint": "control / oscillation / loop"}
+    ]
+  },
+  "monte_carlo": {
+    "winner_share": {"Flow restriction": 0.87, "Control instability": 0.09, "Sensor bias": 0.04},
+    "sensitivity": [["prior:Flow restriction", 0.4], ["likelihood_round_1:Control instability", 0.2]]
+  },
+  "convergence": {
+    "entropy_by_round": [1.85, 1.22, 0.58, 0.29],
+    "posterior_drift_by_round": [0.40, 0.21, 0.09, 0.02]
+  },
+  "convergence_diagnostics": {
+    "final_entropy": 0.29,
+    "effective_hypothesis_count": 1.42,
+    "stability_rounds": 3,
+    "termination_reason": "entropy below threshold"
+  }
+}

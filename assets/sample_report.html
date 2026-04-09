@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="description" content="MoAE Baseline Engine report" />
+  <title>MoAE Report</title>
+  <style>
+:root {
+  --bg: #171614;
+  --surface: #1c1b19;
+  --surface-alt: #22211f;
+  --border: #4a4844;
+  --text: #e2e0db;
+  --muted: #b9b5ae;
+  --primary: #4f98a3;
+  --primary-2: #fdab43;
+  --danger: #d163a7;
+  --success: #6daa45;
+  --warning: #d07b52;
+}
+* { box-sizing: border-box; }
+html { color-scheme: dark; background: var(--bg); }
+body {
+  margin: 0;
+  padding: 28px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+}
+.container { max-width: 1400px; margin: 0 auto; }
+.header { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 18px; margin-bottom: 18px; }
+.card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.015));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+  min-width: 0;
+}
+.h1 { font-size: 34px; line-height: 1.12; margin: 0 0 10px; font-weight: 700; letter-spacing: -0.02em; }
+.h2 { font-size: 20px; line-height: 1.2; margin: 0 0 12px; font-weight: 700; }
+.sub { color: var(--muted); font-size: 14px; line-height: 1.6; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-bottom: 18px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-bottom: 18px; }
+.auto-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.kpi { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.kpi .label { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; }
+.kpi .value { font-size: 32px; font-weight: 700; overflow-wrap: anywhere; }
+.kpi .value.compact { font-size: 20px; line-height: 1.35; }
+.badge { display: inline-block; padding: 6px 10px; border-radius: 999px; font-size: 12px; border: 1px solid var(--border); color: var(--muted); }
+.list { margin: 0; padding-left: 18px; line-height: 1.6; }
+.table-wrap { overflow-x: auto; }
+.matrix { width: 100%; border-collapse: collapse; font-size: 14px; }
+.matrix th, .matrix td { border-bottom: 1px solid var(--border); padding: 10px 8px; text-align: left; vertical-align: top; }
+.matrix th { color: var(--muted); font-weight: 600; }
+.small { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.bar-wrap { display: flex; flex-direction: column; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: minmax(120px, 220px) minmax(0, 1fr) 72px; gap: 10px; align-items: center; }
+.bar-label { overflow-wrap: anywhere; color: var(--text); }
+.bar { height: 12px; background: #2b2927; border-radius: 999px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
+.bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-2)); }
+.spark-wrap { display: flex; flex-direction: column; gap: 10px; }
+.spark-svg {
+  width: 100%;
+  height: auto;
+  min-height: 150px;
+  border-radius: 12px;
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  display: block;
+}
+.cluster { padding: 12px; border-radius: 14px; border: 1px solid var(--border); background: rgba(255,255,255,0.02); min-width: 0; }
+.footer { margin-top: 18px; color: var(--muted); font-size: 12px; }
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.stat { padding: 12px; border-radius: 14px; border: 1px solid var(--border); background: rgba(255,255,255,0.015); }
+.stat .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
+.stat .value { font-size: 22px; font-weight: 700; margin-top: 6px; overflow-wrap: anywhere; }
+@media (max-width: 1000px) {
+  .header, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  body { padding: 16px; }
+  .bar-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <section class="card">
+        <div class="badge">MoAE Baseline Engine</div>
+        <h1 class="h1">HVAC fault detection with telemetry</h1>
+        <div class="sub">Confirmed root cause is chilled-water flow restriction with high confidence.</div>
+      </section>
+      <section class="card">
+        <div class="kpi"><div class="label">Confidence</div><div class="value">91.00%</div></div>
+        <div class="kpi" style="margin-top:12px"><div class="label">Robustness band</div><div class="value compact">84.0% to 95.0%</div></div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-bottom:18px">
+      <div class="stat-grid">
+        <div class="stat"><div class="label">Baseline reached</div><div class="value">Not stated</div></div>
+        <div class="stat"><div class="label">Final entropy</div><div class="value">0.29</div></div>
+        <div class="stat"><div class="label">Effective viable hypotheses</div><div class="value">1.42</div></div>
+        <div class="stat"><div class="label">Termination reason</div><div class="value">entropy below threshold</div></div>
+      </div>
+    </section>
+
+    <div class="grid-3">
+      <section class="card"><div class="h2">Final posterior</div><div class="bar-wrap"><div class="bar-row"><div class="bar-label">Flow restriction</div><div class="bar"><span style="width:72.00%"></span></div><div class="small">72.0%</div></div><div class="bar-row"><div class="bar-label">Control instability</div><div class="bar"><span style="width:18.00%"></span></div><div class="small">18.0%</div></div><div class="bar-row"><div class="bar-label">Sensor bias</div><div class="bar"><span style="width:10.00%"></span></div><div class="small">10.0%</div></div></div></section>
+      <section class="card"><div class="h2">Monte Carlo winner share</div><div class="bar-wrap"><div class="bar-row"><div class="bar-label">Flow restriction</div><div class="bar"><span style="width:87.00%"></span></div><div class="small">87.0%</div></div><div class="bar-row"><div class="bar-label">Control instability</div><div class="bar"><span style="width:9.00%"></span></div><div class="small">9.0%</div></div><div class="bar-row"><div class="bar-label">Sensor bias</div><div class="bar"><span style="width:4.00%"></span></div><div class="small">4.0%</div></div></div></section>
+      <section class="card"><div class="h2">Evidence classes</div><div class="bar-wrap"><div class="bar-row"><div class="bar-label">measurement</div><div class="bar"><span style="width:100.00%"></span></div><div class="small">1.500</div></div><div class="bar-row"><div class="bar-label">fact</div><div class="bar"><span style="width:100.00%"></span></div><div class="small">1.200</div></div><div class="bar-row"><div class="bar-label">causal_claim</div><div class="bar"><span style="width:60.00%"></span></div><div class="small">0.600</div></div><div class="bar-row"><div class="bar-label">correlation</div><div class="bar"><span style="width:40.00%"></span></div><div class="small">0.400</div></div></div></section>
+    </div>
+
+    <div class="grid-2">
+      <section class="card">
+        <div class="h2">Entropy by round</div>
+        <div class="spark-wrap">
+<svg class="spark-svg" data-enhance-chart="true" viewBox="0 0 760 180" role="img" aria-label="Lower is better when narrowing toward a stable explanation.">
+  <rect x="0" y="0" width="760" height="180" rx="12" fill="#22211f" />
+  <line x1="40" y1="18.0" x2="742" y2="18.0" stroke="rgba(255,255,255,0.16)" stroke-width="1" /><line x1="40" y1="62.7" x2="742" y2="62.7" stroke="rgba(255,255,255,0.16)" stroke-width="1" /><line x1="40" y1="107.3" x2="742" y2="107.3" stroke="rgba(255,255,255,0.16)" stroke-width="1" /><line x1="40" y1="152.0" x2="742" y2="152.0" stroke="rgba(255,255,255,0.16)" stroke-width="1" />
+  <text x="8" y="22.0" fill="#b9b5ae" font-size="11">1.85</text><text x="8" y="66.7" fill="#b9b5ae" font-size="11">1.33</text><text x="8" y="111.3" fill="#b9b5ae" font-size="11">0.81</text><text x="8" y="156.0" fill="#b9b5ae" font-size="11">0.29</text>
+  <polyline fill="none" stroke="#4f98a3" stroke-width="3" points="40.0,18.0 274.0,72.1 508.0,127.1 742.0,152.0" />
+  <circle cx="40.0" cy="18.0" r="3.2" fill="#4f98a3" /><circle cx="274.0" cy="72.1" r="3.2" fill="#4f98a3" /><circle cx="508.0" cy="127.1" r="3.2" fill="#4f98a3" /><circle cx="742.0" cy="152.0" r="3.2" fill="#4f98a3" />
+  <text x="40.0" y="172" text-anchor="middle" fill="#b9b5ae" font-size="11">R1</text><text x="274.0" y="172" text-anchor="middle" fill="#b9b5ae" font-size="11">R2</text><text x="508.0" y="172" text-anchor="middle" fill="#b9b5ae" font-size="11">R3</text><text x="742.0" y="172" text-anchor="middle" fill="#b9b5ae" font-size="11">R4</text>
+</svg>
+<div class="small">Lower is better when narrowing toward a stable explanation.</div>
+</div>
+      </section>
+      <section class="card">
+        <div class="h2">Posterior drift by round</div>
+        <div class="spark-wrap">
+<svg class="spark-svg" data-enhance-chart="true" viewBox="0 0 760 180" role="img" aria-label="Shows whether the posterior is still moving materially between rounds.">
+  <rect x="0" y="0" width="760" height="180" rx="12" fill="#22211f" />
+  <line x1="40" y1="18.0" x2="742" y2="18.0" stroke="rgba(255,255,255,0.16)" stroke-width="1" /><line x1="40" y1="62.7" x2="742" y2="62.7" stroke="rgba(255,255,255,0.16)" stroke-width="1" /><line x1="40" y1="107.3" x2="742" y2="107.3" stroke="rgba(255,255,255,0.16)" stroke-width="1" /><line x1="40" y1="152.0" x2="742" y2="152.0" stroke="rgba(255,255,255,0.16)" stroke-width="1" />
+  <text x="8" y="22.0" fill="#b9b5ae" font-size="11">0.40</text><text x="8" y="66.7" fill="#b9b5ae" font-size="11">0.27</text><text x="8" y="111.3" fill="#b9b5ae" font-size="11">0.15</text><text x="8" y="156.0" fill="#b9b5ae" font-size="11">0.02</text>
+  <polyline fill="none" stroke="#fdab43" stroke-width="3" points="40.0,18.0 274.0,85.0 508.0,127.3 742.0,152.0" />
+  <circle cx="40.0" cy="18.0" r="3.2" fill="#fdab43" /><circle cx="274.0" cy="85.0" r="3.2" fill="#fdab43" /><circle cx="508.0" cy="127.3" r="3.2" fill="#fdab43" /><circle cx="742.0" cy="152.0" r="3.2" fill="#fdab43" />
+  <text x="40.0" y="172" text-anchor="middle" fill="#b9b5ae" font-size="11">R1</text><text x="274.0" y="172" text-anchor="middle" fill="#b9b5ae" font-size="11">R2</text><text x="508.0" y="172" text-anchor="middle" fill="#b9b5ae" font-size="11">R3</text><text x="742.0" y="172" text-anchor="middle" fill="#b9b5ae" font-size="11">R4</text>
+</svg>
+<div class="small">Shows whether the posterior is still moving materially between rounds.</div>
+</div>
+      </section>
+    </div>
+
+    <div class="grid-2">
+      <section class="card">
+        <div class="h2">Expert mixture</div>
+        <div class="table-wrap"><table class="matrix"><thead><tr><th>Expert</th><th>Scope</th><th>Credibility</th><th>Blind spots</th></tr></thead><tbody><tr><td>Mechanistic expert</td><td>Thermal and hydraulic mechanisms</td><td>0.3</td><td>operator workflow</td></tr><tr><td>Controls expert</td><td>BMS and sequencing</td><td>0.25</td><td>hidden fouling</td></tr><tr><td>Reliability expert</td><td>Failure prevalence and degradation</td><td>0.2</td><td>instantaneous transients</td></tr></tbody></table></div>
+      </section>
+      <section class="card">
+        <div class="h2">Convergence diagnostics</div>
+        <ul class="list">
+          <li>Final entropy: 0.29</li>
+          <li>Effective viable hypotheses: 1.42</li>
+          <li>Stability rounds: 3</li>
+          <li>Termination reason: entropy below threshold</li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="grid-2">
+      <section class="card">
+        <div class="h2">Eliminated alternatives</div>
+        <div class="table-wrap"><table class="matrix"><thead><tr><th>Hypothesis</th><th>Refutation</th></tr></thead><tbody><tr><td>Control instability</td><td>Oscillation signature is absent and command behavior is stable.</td></tr><tr><td>Sensor bias</td><td>Cross-sensor agreement makes pure instrumentation bias unlikely.</td></tr></tbody></table></div>
+      </section>
+      <section class="card">
+        <div class="h2">Recommended actions</div>
+        <ul class="list"><li>Inspect strainers and verify differential pressure across the affected branch.</li><li>Trend pump head, valve position, and delta-T for 24 hours after remediation.</li></ul>
+      </section>
+    </div>
+
+    <div class="grid-2">
+      <section class="card">
+        <div class="h2">Narrowing trace</div>
+        <div class="table-wrap"><table class="matrix"><thead><tr><th>Round</th><th>Summary</th><th>Remaining</th></tr></thead><tbody><tr><td>1</td><td>Started broad with four viable hypotheses.</td><td>4</td></tr><tr><td>2</td><td>Measurement evidence reduced sensor-bias plausibility.</td><td>3</td></tr><tr><td>3</td><td>Mechanistic consistency favored flow restriction.</td><td>1</td></tr></tbody></table></div>
+      </section>
+      <section class="card">
+        <div class="h2">Input sensitivity</div>
+        <div class="table-wrap"><table class="matrix"><thead><tr><th>Input</th><th>Spread proxy</th></tr></thead><tbody><tr><td>prior:Flow restriction</td><td>0.400</td></tr><tr><td>likelihood_round_1:Control instability</td><td>0.200</td></tr></tbody></table></div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-bottom:18px">
+      <div class="h2">Semantic clusters</div>
+      <div class="auto-grid"><div class="cluster"><div class="h2">cluster-1</div><div class="small">Mechanistic expert, Reliability expert</div><div style="margin-top:8px">flow / restriction / fouling</div></div><div class="cluster"><div class="h2">cluster-2</div><div class="small">Controls expert</div><div style="margin-top:8px">control / oscillation / loop</div></div></div>
+    </section>
+
+    <div class="footer">Generated by the MoAE Baseline Engine bundled report builder. This artifact is self-contained and requires no external assets.</div>
+  </div>
+  <script>
+function enhanceInlineSvgs() {
+  const svgs = document.querySelectorAll('[data-enhance-chart="true"]');
+  svgs.forEach(svg => {
+    svg.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.03)';
+  });
+}
+window.addEventListener('DOMContentLoaded', enhanceInlineSvgs);
+</script>
+</body>
+</html>
